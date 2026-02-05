@@ -17,6 +17,15 @@ $p = max(1, min(604, $p));
     <link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
+    <main class="viewer" id="viewer">
+        <img
+            id="page-image"
+            src="https://cdn.jsdelivr.net/gh/QuranHub/quran-pages-images@main/kfgqpc/hafs-wasat/<?php echo $p; ?>.jpg"
+            alt="صفحة المصحف <?php echo $p; ?>"
+            fetchpriority="high"
+            decoding="async"
+        >
+    </main>
     <header class="header">
         <nav class="nav">
             <a href="light.php<?php echo $p > 1 ? '?p=' . $p : ''; ?>" class="link-light">عرض خفيف</a>
@@ -29,15 +38,6 @@ $p = max(1, min(604, $p));
             <button type="button" class="btn btn-next" id="btn-next" aria-label="الصفحة التالية">التالي</button>
         </nav>
     </header>
-    <main class="viewer" id="viewer">
-        <img
-            id="page-image"
-            src="https://cdn.jsdelivr.net/gh/QuranHub/quran-pages-images@main/kfgqpc/hafs-wasat/<?php echo $p; ?>.jpg"
-            alt="صفحة المصحف <?php echo $p; ?>"
-            fetchpriority="high"
-            decoding="async"
-        >
-    </main>
     <script>
         window.MUSHAF_PAGE = <?php echo $p; ?>;
         window.MUSHAF_TOTAL = 604;

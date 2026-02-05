@@ -144,6 +144,11 @@
   }, { passive: true });
 
   var initialPage = window.MUSHAF_PAGE || 1;
+  var match = location.search.match(/[?&]p=(\d+)/);
+  if (match) {
+    var urlPage = parseInt(match[1], 10);
+    if (urlPage >= 1 && urlPage <= TOTAL) initialPage = urlPage;
+  }
   setPage(initialPage);
   initOpts();
 

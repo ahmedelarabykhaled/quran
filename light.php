@@ -19,6 +19,17 @@ $imgSrc = 'https://cdn.jsdelivr.net/gh/tarekeldeeb/madina_images@w1024/w1024_pag
     <link rel="stylesheet" href="assets/app.css">
 </head>
 <body class="light-page opts-bg-default">
+    <main class="viewer" id="viewer">
+        <div class="mushaf-frame opts-border-none" id="mushaf-frame">
+            <img
+                id="page-image"
+                src="<?php echo htmlspecialchars($imgSrc); ?>"
+                alt="صفحة المصحف <?php echo $p; ?>"
+                fetchpriority="high"
+                decoding="async"
+            >
+        </div>
+    </main>
     <header class="header">
         <nav class="nav">
             <a href="index.php<?php echo $p > 1 ? '?p=' . $p : ''; ?>" class="link-light">عرض كامل</a>
@@ -49,17 +60,6 @@ $imgSrc = 'https://cdn.jsdelivr.net/gh/tarekeldeeb/madina_images@w1024/w1024_pag
             <button type="button" class="btn btn-next" id="btn-next" aria-label="الصفحة التالية">التالي</button>
         </nav>
     </header>
-    <main class="viewer" id="viewer">
-        <div class="mushaf-frame opts-border-none" id="mushaf-frame">
-            <img
-                id="page-image"
-                src="<?php echo htmlspecialchars($imgSrc); ?>"
-                alt="صفحة المصحف <?php echo $p; ?>"
-                fetchpriority="high"
-                decoding="async"
-            >
-        </div>
-    </main>
     <script>
         window.MUSHAF_PAGE = <?php echo $p; ?>;
         window.MUSHAF_TOTAL = 604;
