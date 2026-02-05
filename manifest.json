@@ -1,0 +1,27 @@
+{
+  "name": "مصحف",
+  "short_name": "مصحف",
+  "description": "مصحف بالرسم العثماني — عرض سريع وأوفلاين",
+  "start_url": "./light.php",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#8b6914",
+  "background_color": "#e8e4dc",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -112,6 +112,111 @@ body {
   -webkit-user-select: none;
 }
 
+/* خيارات الصفحة الخفيفة: خلفية وإطار */
+.light-page.opts-bg-default { background: #e8e4dc; }
+.light-page.opts-bg-white { background: #fafafa; }
+.light-page.opts-bg-cream { background: #f5f0e6; }
+.light-page.opts-bg-gray { background: #e0dfdc; }
+.light-page.opts-bg-green { background: #e5ebe4; }
+.light-page.opts-bg-dark { background: #2c2c2c; color: #e0e0e0; }
+.light-page.opts-bg-dark .header { background: #3a3a3a; border-color: #444; color: #e0e0e0; }
+.light-page.opts-bg-dark .btn { background: #4a4a4a; border-color: #666; color: #e0e0e0; }
+.light-page.opts-bg-dark .link-light { color: #c0c0c0; }
+.light-page.opts-bg-dark .page-total { color: #999; }
+.light-page.opts-bg-dark #page-input { background: #3a3a3a; border-color: #555; color: #e0e0e0; }
+.light-page.opts-bg-dark .opts label { color: #e0e0e0; }
+.light-page.opts-bg-dark select { background: #3a3a3a; border-color: #555; color: #e0e0e0; }
+
+.light-page .opts {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.light-page .opts label { font-size: 0.85rem; }
+.light-page .opts select {
+  padding: 0.3rem 0.5rem;
+  font-size: 0.85rem;
+  border: 1px solid #999;
+  border-radius: 4px;
+  background: #fff;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* إطار المصحف: غلاف حول الصورة */
+.light-page .mushaf-frame {
+  display: inline-block;
+  line-height: 0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+.light-page .mushaf-frame #page-image {
+  display: block;
+  border: none;
+  box-shadow: none;
+}
+
+/* بدون إطار */
+.light-page .mushaf-frame.opts-border-none {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+/* مديني: إطار مزدوج ذهبي مثل مصحف المدينة (شريط خارجي + خط داخلي رفيع) */
+.light-page .mushaf-frame.opts-border-madani {
+  --mushaf-gold: #b8860b;
+  --mushaf-gold-inner: #c9a227;
+  padding: 10px;
+  border: 5px solid var(--mushaf-gold);
+  background: #e8e4dc;
+  box-shadow: inset 0 0 0 1px var(--mushaf-gold-inner), 0 2px 16px rgba(0, 0, 0, 0.2);
+}
+.light-page.opts-bg-white .mushaf-frame.opts-border-madani { background: #fafafa; }
+.light-page.opts-bg-cream .mushaf-frame.opts-border-madani { background: #f5f0e6; }
+.light-page.opts-bg-gray .mushaf-frame.opts-border-madani { background: #e0dfdc; }
+.light-page.opts-bg-green .mushaf-frame.opts-border-madani { background: #e5ebe4; }
+.light-page.opts-bg-dark .mushaf-frame.opts-border-madani {
+  background: #2c2c2c;
+  border-color: #8a7a5c;
+  box-shadow: inset 0 0 0 1px #9a8a6c, 0 2px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* كلاسيكي: خط ذهبي واحد (إطار بسيط) */
+.light-page .mushaf-frame.opts-border-classic {
+  padding: 8px;
+  border: 2px solid #b8860b;
+  background: #e8e4dc;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
+}
+.light-page.opts-bg-white .mushaf-frame.opts-border-classic { background: #fafafa; }
+.light-page.opts-bg-cream .mushaf-frame.opts-border-classic { background: #f5f0e6; }
+.light-page.opts-bg-gray .mushaf-frame.opts-border-classic { background: #e0dfdc; }
+.light-page.opts-bg-green .mushaf-frame.opts-border-classic { background: #e5ebe4; }
+.light-page.opts-bg-dark .mushaf-frame.opts-border-classic {
+  background: #2c2c2c;
+  border-color: #8a7a5c;
+}
+
+/* فاخر: إطار ثلاثي (شريط خارجي عريض + فجوة + خط داخلي) */
+.light-page .mushaf-frame.opts-border-luxury {
+  --mushaf-gold: #8b6914;
+  --mushaf-gold-inner: #c9a227;
+  padding: 14px;
+  border: 8px solid var(--mushaf-gold);
+  background: #e8e4dc;
+  box-shadow: inset 0 0 0 2px var(--mushaf-gold-inner), 0 4px 20px rgba(0, 0, 0, 0.22);
+}
+.light-page.opts-bg-white .mushaf-frame.opts-border-luxury { background: #fafafa; }
+.light-page.opts-bg-cream .mushaf-frame.opts-border-luxury { background: #f5f0e6; }
+.light-page.opts-bg-gray .mushaf-frame.opts-border-luxury { background: #e0dfdc; }
+.light-page.opts-bg-green .mushaf-frame.opts-border-luxury { background: #e5ebe4; }
+.light-page.opts-bg-dark .mushaf-frame.opts-border-luxury {
+  background: #2c2c2c;
+  border-color: #7a6a4c;
+  box-shadow: inset 0 0 0 2px #9a8a6c, 0 4px 20px rgba(0, 0, 0, 0.45);
+}
+
 @media (max-width: 480px) {
   .nav {
     gap: 0.5rem;
@@ -129,4 +234,7 @@ body {
   #page-image {
     max-height: calc(100vh - 100px);
   }
+
+  .light-page .opts { gap: 0.35rem; }
+  .light-page .opts select { font-size: 0.8rem; padding: 0.25rem 0.4rem; }
 }

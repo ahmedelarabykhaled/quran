@@ -8,6 +8,49 @@
   var btnPrev = document.getElementById('btn-prev');
   var btnNext = document.getElementById('btn-next');
   var viewer = document.getElementById('viewer');
+  var optBg = document.getElementById('opt-bg');
+  var optBorder = document.getElementById('opt-border');
+  var mushafFrame = document.getElementById('mushaf-frame');
+  var bodyEl = document.body;
+  var BG_PREFIX = 'opts-bg-';
+  var BORDER_PREFIX = 'opts-border-';
+  var STORAGE_BG = 'mushaf-light-bg';
+  var STORAGE_BORDER = 'mushaf-light-border';
+  var BORDER_VALUES = ['none', 'madani', 'classic', 'luxury'];
+
+  function applyBackground(value) {
+    bodyEl.classList.remove(BG_PREFIX + 'default', BG_PREFIX + 'white', BG_PREFIX + 'cream', BG_PREFIX + 'gray', BG_PREFIX + 'green', BG_PREFIX + 'dark');
+    bodyEl.classList.add(BG_PREFIX + value);
+    try { localStorage.setItem(STORAGE_BG, value); } catch (e) {}
+  }
+
+  function applyBorder(value) {
+    if (!mushafFrame) return;
+    BORDER_VALUES.forEach(function (v) { mushafFrame.classList.remove(BORDER_PREFIX + v); });
+    mushafFrame.classList.add(BORDER_PREFIX + value);
+    try { localStorage.setItem(STORAGE_BORDER, value); } catch (e) {}
+  }
+
+  function initOpts() {
+    var savedBg = '';
+    var savedBorder = '';
+    try {
+      savedBg = localStorage.getItem(STORAGE_BG) || 'default';
+      savedBorder = localStorage.getItem(STORAGE_BORDER) || 'none';
+      if (savedBorder === 'thin' || savedBorder === 'normal') savedBorder = 'classic';
+      if (savedBorder === 'thick') savedBorder = 'luxury';
+    } catch (e) {}
+    if (optBg) {
+      optBg.value = savedBg;
+      applyBackground(savedBg);
+      optBg.addEventListener('change', function () { applyBackground(optBg.value); });
+    }
+    if (optBorder) {
+      optBorder.value = savedBorder;
+      applyBorder(savedBorder);
+      optBorder.addEventListener('change', function () { applyBorder(optBorder.value); });
+    }
+  }
 
   function padPage(n) {
     var s = String(n);
@@ -102,6 +145,7 @@
 
   var initialPage = window.MUSHAF_PAGE || 1;
   setPage(initialPage);
+  initOpts();
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {});

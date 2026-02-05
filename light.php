@@ -9,10 +9,16 @@ $imgSrc = 'https://cdn.jsdelivr.net/gh/tarekeldeeb/madina_images@w1024/w1024_pag
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#8b6914">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="مصحف">
     <title>مصحف — عرض خفيف — صفحة <?php echo $p; ?></title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon.svg">
     <link rel="stylesheet" href="assets/app.css">
 </head>
-<body class="light-page">
+<body class="light-page opts-bg-default">
     <header class="header">
         <nav class="nav">
             <a href="index.php<?php echo $p > 1 ? '?p=' . $p : ''; ?>" class="link-light">عرض كامل</a>
@@ -29,9 +35,9 @@ $imgSrc = 'https://cdn.jsdelivr.net/gh/tarekeldeeb/madina_images@w1024/w1024_pag
                 <label for="opt-border">إطار</label>
                 <select id="opt-border" aria-label="اختيار الإطار">
                     <option value="none">بدون</option>
-                    <option value="thin">رفيع</option>
-                    <option value="normal">عادي</option>
-                    <option value="thick">سميك</option>
+                    <option value="madani">مديني</option>
+                    <option value="classic">كلاسيكي</option>
+                    <option value="luxury">فاخر</option>
                 </select>
             </div>
             <button type="button" class="btn btn-prev" id="btn-prev" aria-label="الصفحة السابقة">السابق</button>
@@ -44,13 +50,15 @@ $imgSrc = 'https://cdn.jsdelivr.net/gh/tarekeldeeb/madina_images@w1024/w1024_pag
         </nav>
     </header>
     <main class="viewer" id="viewer">
-        <img
-            id="page-image"
-            src="<?php echo htmlspecialchars($imgSrc); ?>"
-            alt="صفحة المصحف <?php echo $p; ?>"
-            fetchpriority="high"
-            decoding="async"
-        >
+        <div class="mushaf-frame opts-border-none" id="mushaf-frame">
+            <img
+                id="page-image"
+                src="<?php echo htmlspecialchars($imgSrc); ?>"
+                alt="صفحة المصحف <?php echo $p; ?>"
+                fetchpriority="high"
+                decoding="async"
+            >
+        </div>
     </main>
     <script>
         window.MUSHAF_PAGE = <?php echo $p; ?>;

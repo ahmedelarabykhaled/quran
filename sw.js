@@ -1,8 +1,10 @@
-var CACHE_NAME = 'mushaf-v1';
+var CACHE_NAME = 'mushaf-pwa-v1';
 var STATIC_ASSETS = [
   '/quran/',
   '/quran/index.php',
   '/quran/light.php',
+  '/quran/manifest.json',
+  '/quran/icons/icon.svg',
   '/quran/assets/app.css',
   '/quran/assets/app.js',
   '/quran/assets/app-light.js'
@@ -37,6 +39,7 @@ self.addEventListener('fetch', function (e) {
   var isJsDelivr = url.origin === 'https://cdn.jsdelivr.net' && (url.pathname.indexOf('/gh/QuranHub/quran-pages-images') === 0 || url.pathname.indexOf('/gh/tarekeldeeb/madina_images') === 0);
   var isSameOriginQuran = url.origin === self.location.origin && (url.pathname === '/quran/' || url.pathname.indexOf('/quran/') === 0);
   if (!isJsDelivr && !isSameOriginQuran) return;
+
   e.respondWith(
     caches.match(e.request).then(function (cached) {
       if (cached) return cached;
@@ -47,6 +50,14 @@ self.addEventListener('fetch', function (e) {
           cache.put(e.request, clone);
         });
         return res;
+      }).catch(function () {
+        if (e.request.mode === 'navigate') {
+          if (url.pathname.indexOf('light') !== -1 || url.pathname === '/quran/' || url.pathname === '/quran') {
+            return caches.match('/quran/light.php');
+          }
+          return caches.match('/quran/index.php');
+        }
+        return caches.match(e.request);
       });
     })
   );
