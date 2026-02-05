@@ -34,10 +34,23 @@ self.addEventListener('activate', function (e) {
   self.clients.claim();
 });
 
-function getShellUrl(pathname) {
-  var base = self.location.origin + '/quran';
-  if (pathname.indexOf('light') !== -1) return base + '/light.php';
-  return base + '/index.php';
+var SHELL_URLS = ['/quran/light.php', '/quran/index.php', '/quran/'];
+
+function matchAnyCache(requestOrUrlList) {
+  var list = Array.isArray(requestOrUrlList) ? requestOrUrlList : [requestOrUrlList];
+  var origin = self.location.origin;
+  return caches.open(CACHE_NAME).then(function (cache) {
+    function tryNext(i) {
+      if (i >= list.length) return Promise.resolve(undefined);
+      var key = list[i];
+      if (typeof key === 'string' && key.indexOf('/') === 0) key = origin + key;
+      return caches.match(key).then(function (res) {
+        if (res) return res;
+        return tryNext(i + 1);
+      });
+    }
+    return tryNext(0);
+  });
 }
 
 self.addEventListener('fetch', function (e) {
@@ -50,22 +63,23 @@ self.addEventListener('fetch', function (e) {
 
   if (isNavigate && isSameOriginQuran) {
     e.respondWith(
-      caches.match(e.request).then(function (cached) {
+      matchAnyCache([e.request, url.origin + url.pathname, '/quran/light.php', '/quran/index.php', '/quran/']).then(function (cached) {
         if (cached) return cached;
-        return caches.match(getShellUrl(url.pathname)).then(function (shell) {
-          if (shell) return shell;
-          return fetch(e.request).then(function (res) {
-            if (res && res.status === 200 && res.type === 'basic') {
-              var clone = res.clone();
-              caches.open(CACHE_NAME).then(function (cache) { cache.put(e.request, clone); });
-            }
-            return res;
-          }).catch(function () {
-            return caches.match(getShellUrl(url.pathname)).then(function (r) {
-              return r || caches.match(self.location.origin + '/quran/light.php');
-            });
-          });
+        return fetch(e.request).then(function (res) {
+          if (res && res.status === 200 && res.type === 'basic') {
+            var clone = res.clone();
+            caches.open(CACHE_NAME).then(function (cache) { cache.put(e.request, clone); });
+          }
+          return res;
+        }).catch(function () {
+          return matchAnyCache([e.request, url.origin + url.pathname, '/quran/light.php', '/quran/index.php', '/quran/']);
         });
+      }).then(function (response) {
+        if (response) return response;
+        return new Response(
+          '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>مصحف</title></head><body style="font-family:sans-serif;padding:1rem;text-align:center"><p>أنت غير متصل. افتح التطبيق عند الاتصال مرة واحدة لتمكين القراءة بدون نت.</p></body></html>',
+          { headers: { 'Content-Type': 'text/html; charset=utf-8' } }
+        );
       })
     );
     return;
